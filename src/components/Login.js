@@ -1,6 +1,11 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
+const userDB = {
+  dbUsername: "test",
+  dbPw: "aaa123123",
+};
+
 const Wrap = styled.div`
   height: 100vh;
   display: flex;
@@ -66,13 +71,31 @@ export const Login = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
+    getValues,
+    setError,
   } = useForm({
     mode: "onChange",
   });
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    const { username, password } = getValues();
+    const { dbUsername, dbPw } = userDB;
+    // console.log(dbUsername, dbPw);
 
-  console.log(isValid);
+    if (username !== dbUsername) {
+      setError("usernameResult", { message: "아이디가 틀렸습니다." });
+    }
+
+    if (password !== dbPw) {
+      setError("passwordResult", { message: "비밀번호가 틀렸습니다." });
+    }
+
+    if (username === dbUsername && password === dbPw) {
+      alert("로그인 되었습니다");
+    }
+  };
+
+  console.log(errors);
 
   return (
     <Wrap>
@@ -91,7 +114,15 @@ export const Login = () => {
             type="text"
             placeholder="이메일또는 아이디를 입력 해주세요."
           />
-          <ErrorMessage>{errors?.username?.message}</ErrorMessage>
+
+          {errors?.username?.message && (
+            <ErrorMessage>{errors?.username?.message}</ErrorMessage>
+          )}
+
+          {errors?.usernameResult?.message && (
+            <ErrorMessage>{errors?.usernameResult?.message}</ErrorMessage>
+          )}
+
           <input
             {...register("password", {
               required: "비밀번호는 필수 입력사항 입니다.",
@@ -107,7 +138,15 @@ export const Login = () => {
             type="password"
             placeholder="password"
           />
-          <ErrorMessage>{errors?.password?.message}</ErrorMessage>
+
+          {errors?.password?.message && (
+            <ErrorMessage>{errors?.password?.message}</ErrorMessage>
+          )}
+
+          {errors?.passwordResult?.message && (
+            <ErrorMessage>{errors?.passwordResult?.message}</ErrorMessage>
+          )}
+
           <Button
             opacity={isValid ? 1 : 0.5}
             cursor={isValid ? "pointer" : "auto"}
