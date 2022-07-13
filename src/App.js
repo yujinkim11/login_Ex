@@ -1,5 +1,14 @@
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { Login } from "./components/Login";
+
 function App() {
-  return <div>login ex</div>;
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;
