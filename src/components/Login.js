@@ -1,3 +1,4 @@
+import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
 const Wrap = styled.div`
@@ -28,18 +29,6 @@ const LoginWrap = styled.div`
       margin-bottom: 15px;
       border-radius: 10px;
     }
-    button {
-      all: unset;
-      width: 100%;
-      height: 50px;
-      padding: 10px;
-      text-align: center;
-      background-color: darkblue;
-      box-sizing: border-box;
-      color: white;
-      border-radius: 10px;
-      opacity: 0.5;
-    }
   }
 `;
 
@@ -50,15 +39,81 @@ const Title = styled.h3`
   color: darkblue;
 `;
 
+const Button = styled.button`
+  all: unset;
+  width: 100%;
+  height: 50px;
+  padding: 10px;
+  text-align: center;
+  background-color: darkblue;
+  box-sizing: border-box;
+  color: white;
+  border-radius: 10px;
+  opacity: ${(props) => props.opacity};
+  cursor: ${(props) => props.cursor};
+  transition: 0.5s;
+`;
+
+const ErrorMessage = styled.span`
+  font-weight: 900;
+  color: darkblue;
+  margin-bottom: 15px;
+  padding-left: 10px;
+`;
+
 export const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onChange",
+  });
+
+  const onSubmit = () => {};
+
+  console.log(isValid);
+
   return (
     <Wrap>
       <LoginWrap>
         <Title>Login</Title>
-        <form>
-          <input type="text" placeholder="이메일또는 아이디를 입력 해주세요." />
-          <input type="password" />
-          <button>로그인</button>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {/* => 괄호 안에 실제 내가 보여줄 행동, 이름 마음대로 지정 가능 */}
+          <input
+            {...register("username", {
+              required: "아이디는 필수 입력사항 입니다.",
+              minLength: {
+                value: 3,
+                message: "아이디는 3자리 이상 입력해주세요.",
+              },
+            })}
+            type="text"
+            placeholder="이메일또는 아이디를 입력 해주세요."
+          />
+          <ErrorMessage>{errors?.username?.message}</ErrorMessage>
+          <input
+            {...register("password", {
+              required: "비밀번호는 필수 입력사항 입니다.",
+              minLength: {
+                value: 8,
+                message: "비밀번호는 8자리 이상 입력해주세요.",
+              },
+              pattern: {
+                value: /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,}$/,
+                message: "패스워드는 문자, 숫자 조합으로 작성해주세요",
+              },
+            })}
+            type="password"
+            placeholder="password"
+          />
+          <ErrorMessage>{errors?.password?.message}</ErrorMessage>
+          <Button
+            opacity={isValid ? 1 : 0.5}
+            cursor={isValid ? "pointer" : "auto"}
+          >
+            로그인
+          </Button>
         </form>
       </LoginWrap>
     </Wrap>
@@ -71,3 +126,7 @@ export const Login = () => {
 
 // action : input 내용을 담아 특정 페이지로 보낼때
 // method : get - 검색처럼 내용이 보여도 될 때 / post - 로그인처럼 내용이 보이면 안 될 때
+
+// register, handleSubmit => useForm 사용할 때 필수
+// register => 내가 원하는 인풋 태그에 이름 지정, 유효성 검사할 때 사용
+// 정규식 표현법
