@@ -171,3 +171,62 @@ export const Login = () => {
 // register, handleSubmit => useForm 사용할 때 필수
 // register => 내가 원하는 인풋 태그에 이름 지정, 유효성 검사할 때 사용
 // 정규식 표현법
+
+// * react-hook-form
+
+// -const{
+// register, handleSubmit, formState: {errors, isValid },
+// getValues,
+// setError,
+// } = useForm({
+//      mode: "onChange'
+// })
+
+// 1. register
+// => 인풋 태그에 유효성, name등을 부여
+// <input
+// 	{...register("password", {
+// 	required:"패스워드는 필수 입니다.",
+// 	minLength: {
+// 	  value: 8,
+// 	  message: "패스워드는 8자리 이상 작성해주세요.",
+// 	pattern: /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,}$/
+// .......}
+
+// => required: booloean 값으로 처리할 수도 있고, 메시지도 전달할 수 있음
+// => minLength : 최소길이, value 값으로 길이 정하며, message를 이용하여 내용을 작성할 수 있음
+// => pattern:  정규식 표현법으로 특수문자, 숫자, 대문자 등 특정 패턴을 넣을 수 있음
+
+// 2. handleSubmit
+// => form 태그에 submit 이벤트 처리
+
+// 3. formState:{errors, isValid}
+// => from 태그 상태
+// => errors: form 태그 에러 확인
+// => isValid : form태그 유효성 검사(boolean 값으로 반환)
+
+// 4. getValues
+// => 인풋태그 value값을 가져옴(유저가 인풋에 입력한 값)
+// => getValues()로 함수 호출할 것
+
+// 5. setError
+// => 에러를 세팅할 수 있음
+// => setError("에러명",{
+//     "message":"메세지명"
+// })
+
+// 6. clearError
+// =>에러를  지울 수 있음
+// => clearError("에러명"")
+
+// 7. mode
+// => 폼 태그 모드를 이야기 하며
+// onChange(실시간),
+// onBlur(활성화시),
+// onFocus(클릭시),
+// onTouch(터치시)  가 있음
+
+// * useNavigate()
+// => react-router-dom에서 지원함
+// => 페이지 경로를 바꿀 수 있음
+// => navigate("경로")
