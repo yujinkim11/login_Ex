@@ -1,4 +1,5 @@
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { Home } from "./components/Home";
 import { Login } from "./components/Login";
 import { GlobalStyled } from "./components/styles/GlobalStyled";
 
@@ -7,7 +8,8 @@ function App() {
     <Router>
       <GlobalStyled />
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home />} />
       </Routes>
     </Router>
   );

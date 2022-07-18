@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const userDB = {
@@ -67,6 +68,7 @@ const ErrorMessage = styled.span`
 `;
 
 export const Login = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -91,8 +93,8 @@ export const Login = () => {
     }
 
     if (username === dbUsername && password === dbPw) {
-      alert("로그인 되었습니다");
     }
+    navigate("/");
   };
 
   console.log(errors);
